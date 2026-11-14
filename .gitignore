@@ -1,19 +1,24 @@
 .env
 .env.dev
 .env.prod
+# 服务器部署配置（含 APP_SECRET / AI Key），仓库为私有，需要提交
+!.env.server
 data
 # compiled output
 dist
 /node_modules
 
-# Logs
+# 日志与运行时产物
 logs
 *.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+server-run.log
+*.tsbuildinfo
+.nx
+.nx/installation
+.nx/cache
+
+# 本会话工具目录
+.workbuddy/
 
 # OS
 .DS_Store
@@ -38,6 +43,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-.nx
-.nx/installation
-.nx/cache
+# 早期手写 EE 试验产物（已废弃，EE 唯一来源是 vendor/ee-dist）
+vendor/legacy-ts-ee-backup/

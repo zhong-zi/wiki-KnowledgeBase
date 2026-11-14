@@ -1,0 +1,11 @@
+import type { AttributeSchema, Columns, Filter, Row } from '@turbopuffer/turbopuffer';
+import { EmbeddingFingerprint, PageChunk, VectorSearchHit } from '../interfaces/vector-driver.interface';
+export declare const TURBOPUFFER_SEARCH_ATTRIBUTES: string[];
+export declare function buildNamespaceName(prefix: string, workspaceId: string): string;
+export declare function buildChunkId(pageId: string, chunkIndex: number): string;
+export declare function buildVectorSchema(dimensions: number): Record<string, AttributeSchema>;
+export declare function buildUpsertColumns(pageId: string, spaceId: string, chunks: PageChunk[]): Columns;
+export declare function buildPrunePredicate(pageId: string, chunkCount: number): Filter;
+export declare function buildSpaceFilter(spaceIds: string[] | null): Filter | undefined;
+export declare function fingerprintMatches(stored: unknown, current: EmbeddingFingerprint): boolean;
+export declare function toSearchHits(rows: Row[] | undefined, maxDistance: number): VectorSearchHit[];

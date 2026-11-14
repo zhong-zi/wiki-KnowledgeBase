@@ -1,0 +1,33 @@
+import { McpServer } from '@modelcontextprotocol/server';
+import { PageService } from '../../core/page/services/page.service';
+import { PageRepo } from "../../database/repos/page/page.repo";
+import { PageAccessService } from '../../core/page/page-access/page-access.service';
+import { SpaceService } from '../../core/space/services/space.service';
+import { SpaceMemberService } from '../../core/space/services/space-member.service';
+import { CommentService } from '../../core/comment/comment.service';
+import { SearchService } from '../../core/search/search.service';
+import { WorkspaceService } from '../../core/workspace/services/workspace.service';
+import SpaceAbilityFactory from '../../core/casl/abilities/space-ability.factory';
+import WorkspaceAbilityFactory from '../../core/casl/abilities/workspace-ability.factory';
+import { User, Workspace } from "../../database/types/entity.types";
+import { EnvironmentService } from '../../integrations/environment/environment.service';
+import { DomainService } from '../../integrations/environment/domain.service';
+import { ModuleRef } from '@nestjs/core';
+export declare const WRITE_TOOL_NAMES: Set<string>;
+export declare class McpToolsService {
+    private readonly pageRepo;
+    private readonly pageService;
+    private readonly pageAccessService;
+    private readonly spaceService;
+    private readonly spaceMemberService;
+    private readonly commentService;
+    private readonly searchService;
+    private readonly workspaceService;
+    private readonly spaceAbility;
+    private readonly workspaceAbility;
+    private readonly environmentService;
+    private readonly domainService;
+    private readonly moduleRef;
+    constructor(pageRepo: PageRepo, pageService: PageService, pageAccessService: PageAccessService, spaceService: SpaceService, spaceMemberService: SpaceMemberService, commentService: CommentService, searchService: SearchService, workspaceService: WorkspaceService, spaceAbility: SpaceAbilityFactory, workspaceAbility: WorkspaceAbilityFactory, environmentService: EnvironmentService, domainService: DomainService, moduleRef: ModuleRef);
+    registerTools(server: McpServer, user: User, workspace: Workspace, oauthScopes?: string[]): void;
+}

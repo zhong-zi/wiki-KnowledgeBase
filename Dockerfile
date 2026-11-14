@@ -59,6 +59,9 @@ RUN rm -rf /usr/local/lib/node_modules/npm \
 
 COPY --from=installer --chown=node:node /app /app
 
+# 本地签发的许可证验签公钥：EE 启动时读取，缺失会回退到上游内置公钥导致许可证失效
+COPY --from=builder --chown=node:node /app/keys /app/keys
+
 WORKDIR /app/apps/server
 
 ENV NODE_ENV=production

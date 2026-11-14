@@ -1,0 +1,1 @@
+{"version":3,"file":"002_audit_user_agent.js","sourceRoot":"","sources":["../../../../src/ee/clickhouse/migrations/002_audit_user_agent.ts"],"names":[],"mappings":";;AAEA,gBAIC;AAJM,KAAK,UAAU,EAAE,CAAC,MAAwB;IAC/C,MAAM,MAAM,CAAC,OAAO,CAAC;QACnB,KAAK,EAAE,wEAAwE;KAChF,CAAC,CAAC;AACL,CAAC"}

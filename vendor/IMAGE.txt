@@ -1,0 +1,9 @@
+# 企业版编译产物的来源镜像（固定 digest，勿随意修改）
+# 该版本必须与 package.json 的 version 一致，否则 EE 的 JS 与源码编译产物接口可能不匹配
+image=docmost/docmost
+tag=latest
+digest=sha256:40c454d74ffdd9ecb15833e4d96f3a630d59aad862a1869381ae6ee086454419
+app_version=0.97.0
+image_created=2026-10-26
+extracted_path=/app/apps/server/dist/ee
+extracted_at=2026-11-06

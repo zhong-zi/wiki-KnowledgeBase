@@ -1,0 +1,45 @@
+# Docmost 源码部署依赖服务：仅数据库 + Redis
+# 应用本体从源码运行，不在此文件中
+services:
+  db:
+    image: pgvector/pgvector:pg18
+    container_name: docmost-db
+    environment:
+      POSTGRES_DB: docmost
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docmost_db_2026
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - docmost_db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d docmost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8
+    container_name: docmost-redis
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - docmost_redis_data:/data
+
+  # PDF 导出使用（应用通过 GOTENBERG_URL 调用）
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    container_name: docmost-gotenberg
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--api-timeout=120s"
+
+volumes:
+  docmost_db_data:
+  docmost_redis_data:

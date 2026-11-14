@@ -44,6 +44,13 @@ try {
     console.warn('Failed to load enterprise modules. Exiting program.\n', err);
     process.exit(1);
   }
+  // 源码部署下 EE 是外部注入的编译产物，缺失或版本不匹配时不应静默降级
+  console.error(
+    '[enterprise] 企业版模块加载失败，当前以开源版运行。' +
+      'AI、导入导出、页面权限、MFA、模板等功能将不可用。\n' +
+      '修复：node scripts/fetch-ee.js && node scripts/sync-ee.js\n',
+    err,
+  );
 }
 
 @Module({
@@ -53,7 +60,7 @@ try {
       middleware: { mount: true },
     }),
     LoggerModule,
-    ...(enterpriseModules.length > 0 ? [] : [NoopAuditModule]),
+    NoopAuditModule,
     CoreModule,
     DatabaseModule,
     EnvironmentModule,
