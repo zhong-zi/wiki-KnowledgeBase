@@ -1,0 +1,18 @@
+# 统一换行策略：文本文件一律 LF 入库、LF 检出，避免跨平台时内容被改写
+* text=auto eol=lf
+
+# Windows 批处理必须 CRLF，否则 cmd 解析会错乱
+*.cmd text eol=crlf
+
+# 证书与编译产物按二进制处理，禁止任何行尾转换
+*.pem binary
+vendor/** binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.pdf binary
