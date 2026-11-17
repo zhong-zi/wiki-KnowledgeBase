@@ -8,6 +8,9 @@ cd /d "%~dp0"
 set "LOGMODE="
 if /i "%~1"=="log" set "LOGMODE=1"
 
+netstat -ano | findstr ":3000" | findstr "LISTENING" >nul 2>&1
+if not errorlevel 1 goto already
+
 echo [1/4] Checking Docker Engine ...
 docker info >nul 2>&1
 if errorlevel 1 goto nodocker
@@ -44,6 +47,15 @@ if defined LOGMODE (
 popd
 echo.
 echo Application has exited. Read the messages above for the reason.
+pause
+goto :eof
+
+:already
+echo The app is already running on port 3000 - no need to start it again.
+echo Opening http://localhost:3000 ...
+start "" http://localhost:3000
+echo.
+echo If the page does not load, close this window, run stop-docmost.cmd, then run this again.
 pause
 goto :eof
 
