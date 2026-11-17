@@ -1,28 +1,15 @@
 import { Injectable } from '@nestjs/common';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const packageJson = require('./../../../package.json');
 
 @Injectable()
 export class VersionService {
   constructor() {}
 
   async getVersion() {
-    const url = `https://api.github.com/repos/docmost/docmost/releases/latest`;
-
-    let latestVersion = 0;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) return;
-      const data = await response.json();
-      latestVersion = data?.tag_name?.replace('v', '');
-    } catch (err) {
-      /* empty */
-    }
-
+    // 版本号固定为产品版本，不再向上游查询最新版本（无外部网络请求、无跳转）
     return {
-      currentVersion: packageJson?.version,
-      latestVersion: latestVersion,
-      releaseUrl: 'https://github.com/docmost/docmost/releases',
+      currentVersion: process.env.APP_VERSION || '1.0.0',
+      latestVersion: 0,
+      releaseUrl: '',
     };
   }
 }

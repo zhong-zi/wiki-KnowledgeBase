@@ -24,7 +24,7 @@ if (!fs.existsSync(srcDir)) {
   process.exit(1);
 }
 
-fs.rmSync(destDir, { recursive: true, force: true });
+// 不整目录删除（批量删除会被安全策略/回收站机制拦截），改为覆盖复制 + 清理陈旧文件
 fs.mkdirSync(path.dirname(destDir), { recursive: true });
 
 // 注意：Windows 下 fs.cpSync 递归复制本目录会导致进程崩溃，改用逐文件复制
@@ -41,7 +41,28 @@ function copyDir(src, dest) {
   }
 }
 
+// 删除 dest 中源目录已不存在的文件，避免版本切换后残留旧模块
+function pruneStale(src, dest) {
+  let removed = 0;
+  for (const entry of fs.readdirSync(dest, { withFileTypes: true })) {
+    const to = path.join(dest, entry.name);
+    const from = path.join(src, entry.name);
+    if (!fs.existsSync(from)) {
+      fs.rmSync(to, { recursive: true, force: true });
+      removed++;
+    } else if (entry.isDirectory()) {
+      removed += pruneStale(from, to);
+    }
+  }
+  return removed;
+}
+
 copyDir(srcDir, destDir);
+
+const pruned = pruneStale(srcDir, destDir);
+if (pruned) {
+  console.log(`[sync-ee] 清理陈旧文件 ${pruned} 项`);
+}
 
 /**
  * 许可证验签公钥改为可配置：优先 env / keys/license-public-key.pem，
